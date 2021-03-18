@@ -1,0 +1,17 @@
+Bootstrap: docker
+From: rocker/r-ver:4.0.2
+
+%post  
+  apt update
+  apt-get install --assume-yes --no-install-recommends \
+    git
+    
+  R --vanilla -e "install.packages('littler', repos = 'http://cran.rstudio.com', dependencies = TRUE)"
+  
+  install2.r --error --deps TRUE \
+    tictoc \
+    here \
+    purrr \
+    future \ 
+    furrr \ 
+    rstan

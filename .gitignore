@@ -1,0 +1,12 @@
+# R output:
+**/.rds
+
+# RProj files
+**/.Rproj.user
+
+# Singularity Image Files:
+**/.sif
+
+# Demon spawn:
+.DS_Store
+**/.DS_Store
