@@ -1,0 +1,25 @@
+Bootstrap: docker
+From: rocker/r-bspm:20.04
+
+%post  
+  apt update
+  
+  apt-get install --assume-yes --no-install-recommends \
+    git
+  
+  install.r here glue tictoc mass tidyverse furrr bayesm
+    
+  wget https://github.com/stan-dev/cmdstan/releases/download/v2.27.0/cmdstan-2.27.0.tar.gz
+  tar -zxpf cmdstan-2.27.0.tar.gz
+  ln -s cmdstan-2.27.0 cmdstan
+  cd cmdstan; make build
+  cd .. ; rm -rf cmdstan-2.27.0.tar.gz
+  sudo chmod 775 cmdstan
+
+  R --vanilla -e 'remotes::install_version("ivmodel", version = "1.9.0", repos = "https://cran.rstudio.com")'
+  R --vanilla -e 'remotes::install_github("stan-dev/posterior")'
+  R --vanilla -e 'options(repos = "https://cran.rstudio.com"); install.packages("cmdstanr", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))'    
+
+
+%runscript
+  make
